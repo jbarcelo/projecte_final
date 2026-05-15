@@ -4,12 +4,12 @@ import { RESOURCE_TYPES, type ResourceType } from '../resource.model';
 export class CreateResourceDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsIn(RESOURCE_TYPES)
-  type: ResourceType;
+  type!: ResourceType;
 
   @IsString()
   @IsNotEmpty()
-  location: string;
+  location!: string;
 }

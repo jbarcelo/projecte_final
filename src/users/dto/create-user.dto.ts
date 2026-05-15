@@ -4,11 +4,11 @@ import { USER_ROLES, type UserRole } from '../user.model';
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsEmail()
-  email: string;
+  email!: string;
 
   @IsIn(USER_ROLES)
-  role: UserRole;
+  role!: UserRole;
 }
