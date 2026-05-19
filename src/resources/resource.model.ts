@@ -1,3 +1,5 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
 export const RESOURCE_TYPES = [
   'laptop',
   'room',
@@ -17,4 +19,20 @@ export interface Resource {
   location: string;
   assignedToUserId: number | null;
   createdAt: string;
+}
+
+@Entity()
+export class Resource {
+  @PrimaryGeneratedColumn()
+  id!: number;
+  @Column()
+  name!: string;
+  @Column()
+  type!: ResourceType;
+  @Column()
+  status!: ResourceStatus;
+  @Column()
+  location!: string;
+  @Column()
+  createdAt!: string;
 }
