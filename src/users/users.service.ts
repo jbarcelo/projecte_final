@@ -29,9 +29,8 @@ export class UsersService {
     return this.usersRepository.find({ where });
   }
 
-  /*
-  findOne(id: number): User {
-    const user = this.users.find((currentUser) => currentUser.id === id);
+  async findOne(id: number): Promise<User> {
+    const user = await this.usersRepository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
@@ -39,7 +38,6 @@ export class UsersService {
 
     return user;
   }
-  */
 
   create(createUserDto: CreateUserDto): Promise<User> {
     const newUser = this.usersRepository.create({
@@ -52,43 +50,22 @@ export class UsersService {
 
     return this.usersRepository.save(newUser);
   }
-  /*
-  update(id: number, updateUserDto: UpdateUserDto): User {
-    const userIndex = this.users.findIndex((user) => user.id === id);
 
-    if (userIndex === -1) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.findOne(id);
 
-    const currentUser = this.users[userIndex];
     const {
-      name = currentUser.name,
-      email = currentUser.email,
-      role = currentUser.role,
-      active = currentUser.active,
+      name = user.name,
+      email = user.email,
+      role = user.role,
+      active = user.active,
     } = updateUserDto;
 
-    this.users[userIndex] = {
-      ...currentUser,
-      name,
-      email,
-      role,
-      active,
-    };
-
-    return this.users[userIndex];
+    return this.usersRepository.save({ ...user, name, email, role, active });
   }
 
-  remove(id: number): User {
-    const userIndex = this.users.findIndex((user) => user.id === id);
-
-    if (userIndex === -1) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
-
-    const [deletedUser] = this.users.splice(userIndex, 1);
-
-    return deletedUser;
+  async remove(id: number): Promise<User> {
+    const user = await this.findOne(id);
+    return this.usersRepository.remove(user);
   }
-    */
 }
