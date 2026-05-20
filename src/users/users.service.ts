@@ -3,29 +3,30 @@ import type { CreateUserDto } from './dto/create-user.dto';
 import type { FindUsersQueryDto } from './dto/find-users-query.dto';
 import type { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './user.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [
-    {
-      id: 1,
-      name: 'Anna Serra',
-      email: 'anna@example.com',
-      role: 'member',
-      active: true,
-      createdAt: new Date().toISOString(),
-    },
-  ];
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
 
-  findAll(query: FindUsersQueryDto): User[] {
+  findAll(query: FindUsersQueryDto): Promise<User[]> {
     const { active, role } = query;
 
-    return this.users.filter((user) => {
-      const matchesActive = active === undefined || user.active === active;
-      const matchesRole = role === undefined || user.role === role;
+    const where: Partial<User> = {};
 
-      return matchesActive && matchesRole;
-    });
+    if (active != undefined) {
+      where.active = active;
+    }
+
+    if (role != undefined) {
+      where.role = role;
+    }
+
+    return this.usersRepository.find({ where });
   }
 
   findOne(id: number): User {
