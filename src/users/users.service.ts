@@ -29,6 +29,7 @@ export class UsersService {
     return this.usersRepository.find({ where });
   }
 
+  /*
   findOne(id: number): User {
     const user = this.users.find((currentUser) => currentUser.id === id);
 
@@ -38,22 +39,20 @@ export class UsersService {
 
     return user;
   }
+  */
 
-  create(createUserDto: CreateUserDto): User {
-    const newUser: User = {
-      id: this.users.length + 1,
+  create(createUserDto: CreateUserDto): Promise<User> {
+    const newUser = this.usersRepository.create({
       name: createUserDto.name,
       email: createUserDto.email,
       role: createUserDto.role,
       active: true,
       createdAt: new Date().toISOString(),
-    };
+    });
 
-    this.users.push(newUser);
-
-    return newUser;
+    return this.usersRepository.save(newUser);
   }
-
+  /*
   update(id: number, updateUserDto: UpdateUserDto): User {
     const userIndex = this.users.findIndex((user) => user.id === id);
 
@@ -91,4 +90,5 @@ export class UsersService {
 
     return deletedUser;
   }
+    */
 }

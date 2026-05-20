@@ -14,7 +14,6 @@ export class ResourcesService {
       status: 'available',
       location: 'cyberspace',
       createdAt: new Date().toISOString(),
-      assignedToUserId: null,
     },
   ];
 
@@ -48,7 +47,6 @@ export class ResourcesService {
       type: createResourceDto.type,
       status: 'available',
       location: createResourceDto.location,
-      assignedToUserId: null,
       createdAt: new Date().toISOString(),
     };
 
