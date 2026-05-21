@@ -4,7 +4,7 @@ import type { FindResourcesQueryDto } from './dto/find-resources-query.dto';
 import type { UpdateResourceDto } from './dto/update-resource.dto';
 import { Resource } from './resource.model';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class ResourcesService {
@@ -16,7 +16,7 @@ export class ResourcesService {
   findAll(query: FindResourcesQueryDto): Promise<Resource[]> {
     const { type, status } = query;
 
-    const where: Partial<Resource> = {};
+    const where: FindOptionsWhere<Resource> = {};
 
     if (type != undefined) {
       where.type = type;
