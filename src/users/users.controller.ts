@@ -12,7 +12,9 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { FindUsersQueryDto } from './dto/find-users-query.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ParseResourceAssignmentDto } from './dto/parse-resource-assignment.dto';
 import type { User } from './user.model';
+import type { Resource } from '../resources/resource.model';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -45,5 +47,14 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return this.usersService.remove(id);
+  }
+
+  @Post('parse-resource-assignment')
+  parseResourceAssignment(
+    @Body() parseResourceAssignmentDto: ParseResourceAssignmentDto,
+  ): Promise<Resource> {
+    return this.usersService.parseResourceAssignment(
+      parseResourceAssignmentDto,
+    );
   }
 }
